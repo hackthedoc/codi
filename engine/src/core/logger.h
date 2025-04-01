@@ -25,42 +25,42 @@ typedef enum logLevel {
 b8 initializeLogging();
 void shutdownLogging();
 
-CAPI void logOutput(const logLevel lvl, const char* msg, ...);
+CAPI void LogOutput(const logLevel lvl, const char* msg, ...);
 
 #ifndef CFATAL
 // Logs a fatal-level message.
-#define CFATAL(msg, ...) logOutput(LOG_LEVEL_FATAL, msg, ##__VA_ARGS__)
+#define CFATAL(msg, ...) LogOutput(LOG_LEVEL_FATAL, msg, ##__VA_ARGS__)
 #endif
 
 #ifndef CERROR
 // Logs an error-level message.
-#define CERROR(msg, ...) logOutput(LOG_LEVEL_ERROR, msg, ##__VA_ARGS__)
+#define CERROR(msg, ...) LogOutput(LOG_LEVEL_ERROR, msg, ##__VA_ARGS__)
 #endif
 
 #if LOG_WARN_ENABLED == 1
 // Logs an error-level message.
-#define CWARN(msg, ...) logOutput(LOG_LEVEL_WARN, msg, ##__VA_ARGS__)
+#define CWARN(msg, ...) LogOutput(LOG_LEVEL_WARN, msg, ##__VA_ARGS__)
 #else
 #define CWARN(msg, ...)
 #endif
 
 #if LOG_INFO_ENABLED == 1
 // Logs an error-level message.
-#define CINFO(msg, ...) logOutput(LOG_LEVEL_INFO, msg, ##__VA_ARGS__)
+#define CINFO(msg, ...) LogOutput(LOG_LEVEL_INFO, msg, ##__VA_ARGS__)
 #else
 #define CINFO(msg, ...)
 #endif
 
 #if LOG_DEBUG_ENABLED == 1
 // Logs an error-level message.
-#define CDEBUG(msg, ...) logOutput(LOG_LEVEL_DEBUG, msg, ##__VA_ARGS__)
+#define CDEBUG(msg, ...) LogOutput(LOG_LEVEL_DEBUG, msg, ##__VA_ARGS__)
 #else
 #define CDEBUG(msg, ...)
 #endif
 
 #if LOG_TRACE_ENABLED == 1
 // Logs an error-level message.
-#define CTRACE(msg, ...) logOutput(LOG_LEVEL_TRACE, msg, ##__VA_ARGS__)
+#define CTRACE(msg, ...) LogOutput(LOG_LEVEL_TRACE, msg, ##__VA_ARGS__)
 #else
 #define CTRACE(msg, ...)
 #endif

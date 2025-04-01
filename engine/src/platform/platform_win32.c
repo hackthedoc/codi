@@ -21,7 +21,7 @@ static LARGE_INTEGER startTime;
 
 LRESULT CALLBACK win32_ProcessMessage(HWND hwnd, u32 msg, WPARAM wParam, LPARAM lParam);
 
-b8 platform_Sartup(platformState* platState, const char* appName, const i32 x, const i32 y, const i32 width, const i32 height) {
+b8 platformSartup(platformState* platState, const char* appName, const i32 x, const i32 y, const i32 width, const i32 height) {
     platState->internalState = malloc(sizeof(internalState));
     internalState* state = (internalState*)platState->internalState;
 
@@ -116,7 +116,7 @@ b8 platform_Sartup(platformState* platState, const char* appName, const i32 x, c
     return TRUE;
 }
 
-void platform_Shutdown(platformState* platState) {
+void platformShutdown(platformState* platState) {
     internalState* state = (internalState*)platState->internalState;
 
     if (state->hwnd) {
@@ -125,7 +125,7 @@ void platform_Shutdown(platformState* platState) {
     }
 }
 
-b8 platform_PumpMessage(platformState* platState) {
+b8 platformPumpMessage(platformState* platState) {
     MSG msg;
     while (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE)) {
         TranslateMessage(&msg);
@@ -135,27 +135,27 @@ b8 platform_PumpMessage(platformState* platState) {
     return TRUE;
 }
 
-void* platform_Allocate(const u64 size, const b8 aligned) {
+void* platformAllocate(const u64 size, const b8 aligned) {
     return malloc(size);
 }
 
-void platform_Free(void* block, const b8 aligned) {
+void platformFree(void* block, const b8 aligned) {
     free(block);
 }
 
-void* platform_ZeroMemory(void* block, const u64 size) {
+void* platformZeroMemory(void* block, const u64 size) {
     return memset(block, 0, size);
 }
 
-void* plateform_CopyMemory(void* dest, const void* src, const u64 size) {
+void* plateformCopyMemory(void* dest, const void* src, const u64 size) {
     return memcpy(dest, src, size);
 }
 
-void* platform_SetMemory(void* dest, const i32 value, const u64 size) {
+void* platformSetMemory(void* dest, const i32 value, const u64 size) {
     return memset(dest, value, size);
 }
 
-void platform_ConsoleWrite(const char* msg, const u8 color) {
+void platformConsoleWrite(const char* msg, const u8 color) {
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     // FATAL, ERROR, WARN, INFO, DEBUG, TRACE
     static u8 levels[6] = {64, 4, 6, 2, 1, 8};
@@ -167,7 +167,7 @@ void platform_ConsoleWrite(const char* msg, const u8 color) {
     WriteConsoleA(GetStdHandle(STD_OUTPUT_HANDLE), msg, (DWORD)length, numberWritten, 0); 
 }
 
-void platform_ConsoleWriteError(const char* msg, const u8 color) {
+void platformConsoleWriteError(const char* msg, const u8 color) {
     HANDLE consoleHandle = GetStdHandle(STD_ERROR_HANDLE);
     // FATAL, ERROR, WARN, INFO, DEBUG, TRACE
     static u8 levels[6] = {64, 4, 6, 2, 1, 8};
@@ -179,13 +179,13 @@ void platform_ConsoleWriteError(const char* msg, const u8 color) {
     WriteConsoleA(GetStdHandle(STD_ERROR_HANDLE), msg, (DWORD)length, numberWritten, 0); 
 }
 
-f64 platform_GetAbsoluteTime() {
+f64 platformGetAbsoluteTime() {
     LARGE_INTEGER currentTime;
     QueryPerformanceCounter(&currentTime);
     return (f64)currentTime.QuadPart * clockFrequency;
 }
 
-void plateform_Sleep(const u64 ms) {
+void plateformSleep(const u64 ms) {
     Sleep(ms);
 }
 

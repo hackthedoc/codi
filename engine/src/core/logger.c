@@ -16,7 +16,7 @@ void shutdownLogging() {
     // TODO: cleanup logging/write queued entries
 }
 
-void logOutput(const logLevel lvl, const char* msg, ...) {
+void LogOutput(const logLevel lvl, const char* msg, ...) {
     const char* levelStrings[6] = {"[FATAL]: ", "[ERROR]: ", "[WARN]: ", "[INFO]: ", "[DEBUG]: ", "[TRACE]: "};
     b8 isError = lvl < LOG_LEVEL_WARN;
 
@@ -34,10 +34,10 @@ void logOutput(const logLevel lvl, const char* msg, ...) {
     char finalMsg[msgLength];
     sprintf(finalMsg, "%s%s\n", levelStrings[lvl], outMsg);
 
-    if (isError) platform_ConsoleWriteError(finalMsg, lvl);
-    else platform_ConsoleWrite(finalMsg, lvl);
+    if (isError) platformConsoleWriteError(finalMsg, lvl);
+    else platformConsoleWrite(finalMsg, lvl);
 }
 
 void reportAssertionFailure(const char* expr, const char* msg, const char* file, i32 line) {
-    logOutput(LOG_LEVEL_FATAL, "Assertion Failure: %s, message: '%s', in file: %s, line: %d\n", expr, msg, file, line);
+    LogOutput(LOG_LEVEL_FATAL, "Assertion Failure: %s, message: '%s', in file: %s, line: %d\n", expr, msg, file, line);
 }
