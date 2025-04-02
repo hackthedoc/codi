@@ -147,7 +147,7 @@ void* platformZeroMemory(void* block, const u64 size) {
     return memset(block, 0, size);
 }
 
-void* plateformCopyMemory(void* dest, const void* src, const u64 size) {
+void* platformCopyMemory(void* dest, const void* src, const u64 size) {
     return memcpy(dest, src, size);
 }
 
@@ -185,7 +185,7 @@ f64 platformGetAbsoluteTime() {
     return (f64)currentTime.QuadPart * clockFrequency;
 }
 
-void plateformSleep(const u64 ms) {
+void platformSleep(const u64 ms) {
     Sleep(ms);
 }
 

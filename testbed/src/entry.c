@@ -2,8 +2,7 @@
 
 #include <entry.h>
 
-// TODO: remove this
-#include <platform/platform.h>
+#include <core/cmemory.h>
 
 // Define the function to create a game.
 b8 createGame(game* outGame) {
@@ -23,7 +22,7 @@ b8 createGame(game* outGame) {
 
     // create the game state
 
-    outGame->state = platformAllocate(sizeof(gameState), FALSE);
+    outGame->state = CAllocate(sizeof(gameState), MEMORY_TAG_GAME);
 
     return TRUE;
 }

@@ -1,7 +1,8 @@
 #include "application.h"
 #include "game_types.h"
 
-#include "logger.h"
+#include "core/logger.h"
+#include "core/cmemory.h"
 
 #include "platform/platform.h"
 
@@ -29,15 +30,6 @@ b8 ApplicationCreate(game* gInstance) {
     // Initialize subsystems
 
     initializeLogging();
-
-    // TODO: remove this
-
-    CFATAL("A test message: %f", 3.14f);
-    CERROR("A test message: %f", 3.14f);
-    CWARN("A test message: %f", 3.14f);
-    CINFO("A test message: %f", 3.14f);
-    CDEBUG("A test message: %f", 3.14f);
-    CTRACE("A test message: %f", 3.14f);
 
     appState.isRunning = TRUE;
     appState.isSuspended = FALSE;
@@ -70,6 +62,8 @@ b8 ApplicationCreate(game* gInstance) {
 }
 
 b8 ApplicationRun() {
+    CINFO(CGetMemoryUsageString());
+
     while (appState.isRunning) {
         if (!platformPumpMessage(&appState.platform)) {
             appState.isRunning = FALSE;

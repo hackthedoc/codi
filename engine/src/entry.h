@@ -2,6 +2,7 @@
 
 #include "core/application.h"
 #include "core/logger.h"
+#include "core/cmemory.h"
 
 #include "game_types.h"
 
@@ -10,6 +11,8 @@ extern b8 createGame(game* outGame);
 
 // The MAIN entry point of the application;
 int main(void) {
+
+    initializeMemory();
 
     // request the game instance for the application
 
@@ -21,8 +24,8 @@ int main(void) {
 
     // ensure the function pointers exits
 
-    if (!gInstance.initialize || !gInstance.update || !gInstance.render || gInstance.onResize) {
-        CFATAL("The gamme's function pointers must be assigned!");
+    if (!gInstance.initialize || !gInstance.update || !gInstance.render || !gInstance.onResize) {
+        CFATAL("The game's function pointers must be assigned!");
         return -2;
     }
 
@@ -39,6 +42,8 @@ int main(void) {
         CINFO("Application did not shutdown gracefully.");
         return 2;
     }
+
+    shutdownMemory();
 
     return 0;
 }

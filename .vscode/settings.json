@@ -1,7 +1,6 @@
 {
     "editor.fontSize": 20,
     "workbench.editor.showTabs": "none",
-    "workbench.activityBar.visible": true,
     "workbench.statusBar.visible": true,
     "editor.lineNumbers": "on",
     "C_Cpp.clang_format_style": "{ BasedOnStyle: Google, IndentWidth: 4, ColumnLimit: 0, NamespaceIndentation: All}",
