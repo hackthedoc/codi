@@ -4,6 +4,7 @@
 #if CPLATFORM_WINDOWS
 
 #include "core/logger.h"
+#include "core/input.h"
 
 #include <stdlib.h>
 #include <windows.h>
@@ -207,13 +208,25 @@ LRESULT CALLBACK win32_ProcessMessage(HWND hwnd, u32 msg, WPARAM wParam, LPARAM 
     case WM_SYSKEYDOWN:
     case WM_KEYUP:
     case WM_SYSKEYUP: {
-        // TODO: input processing
+        const b8 pressed = (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN);
+        const CODI_Key key = (u16)wParam;
+
+        // pass to the input subsystem for processing
+        inputProcessKey(key, pressed);
     } break;
     case WM_MOUSEMOVE: {
-        // TODO: input processing
+        const i32 x = GET_X_LPARAM(lParam);
+        const i32 y = GET_Y_LPARAM(lParam);
+
+        // pass to the input subsystem for processing
+        inputProcessMouseMove(x, y);
     } break;
     case WM_MOUSEWHEEL: {
-        // TODO: input processing
+        i32 zDelta = GET_WHEEL_DELTA_WPARAM(wParam);
+        if (zDelta != 0) zDelta = (zDelta < 0) ? -1 : 1;
+        
+        // pass to the input subsystem for processing
+        inputProcessMouseWheel(zDelta);
     } break;
     case WM_LBUTTONDOWN:
     case WM_MBUTTONDOWN:
@@ -221,7 +234,27 @@ LRESULT CALLBACK win32_ProcessMessage(HWND hwnd, u32 msg, WPARAM wParam, LPARAM 
     case WM_LBUTTONUP:
     case WM_MBUTTONUP:
     case WM_RBUTTONUP: {
-        // TODO: input processing
+        const b8 pressed = (msg == WM_LBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_RBUTTONDOWN);
+        CODI_MouseButton button = MOUSE_BUTTON_COUNT;
+        switch (msg) {
+        case WM_LBUTTONDOWN:
+        case WM_LBUTTONUP:
+            button = MOUSE_BUTTON_LEFT;
+            break;
+        case WM_MBUTTONDOWN:
+        case WM_MBUTTONUP:
+            button = MOUSE_BUTTON_MIDDLE;
+            break;
+        case WM_RBUTTONDOWN:
+        case WM_RBUTTONUP:
+            button = MOUSE_BUTTON_RIGHT;
+            break;
+        }
+        
+        // pass to the input subsystem for processing
+        if (button != MOUSE_BUTTON_COUNT) {
+            inputProcessMouseButton(button, pressed);
+        }
     } break;
     }
 
