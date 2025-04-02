@@ -16,7 +16,7 @@ void shutdownLogging() {
     // TODO: cleanup logging/write queued entries
 }
 
-void LogOutput(const logLevel lvl, const char* msg, ...) {
+void CODI_LogOutput(const CODI_LogLevel lvl, const char* msg, ...) {
     const char* levelStrings[6] = {"[FATAL]: ", "[ERROR]: ", "[WARN]: ", "[INFO]: ", "[DEBUG]: ", "[TRACE]: "};
     b8 isError = lvl < LOG_LEVEL_WARN;
 
@@ -39,5 +39,5 @@ void LogOutput(const logLevel lvl, const char* msg, ...) {
 }
 
 void reportAssertionFailure(const char* expr, const char* msg, const char* file, i32 line) {
-    LogOutput(LOG_LEVEL_FATAL, "Assertion Failure: %s, message: '%s', in file: %s, line: %d\n", expr, msg, file, line);
+    CODI_LogOutput(LOG_LEVEL_FATAL, "Assertion Failure: %s, message: '%s', in file: %s, line: %d\n", expr, msg, file, line);
 }

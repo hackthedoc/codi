@@ -13,7 +13,7 @@
 #define debugBreak() __builtin_trap()
 #endif
 
-CAPI void reportAssertionFailure(const char* expr, const char* msg, const char* file, i32 line);
+void reportAssertionFailure(const char* expr, const char* msg, const char* file, i32 line);
 
 #define CASSERT(expr)                                               \
     {                                                               \

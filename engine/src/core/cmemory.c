@@ -42,9 +42,9 @@ void shutdownMemory() {
 
 }
 
-void* CAllocate(const u64 size, const memoryTag tag) {
+void* CODI_Allocate(const u64 size, const CODI_MemoryTag tag) {
     if (tag == MEMORY_TAG_UNKNOWN) {
-        CWARN("CAllocate called using MEMORY_TAG_UNKNOWN. Re-class this alloation.");
+        CWARN("CODI_Allocate called using MEMORY_TAG_UNKNOWN. Re-class this alloation.");
     }
 
     stats.totalAllocated += size;
@@ -56,9 +56,9 @@ void* CAllocate(const u64 size, const memoryTag tag) {
     return block;
 }
 
-void  CFree(void* block, const u64 size, const memoryTag tag) {
+void  CODI_Free(void* block, const u64 size, const CODI_MemoryTag tag) {
     if (tag == MEMORY_TAG_UNKNOWN) {
-        CWARN("CFree called using MEMORY_TAG_UNKNOWN. Re-class this alloation.");
+        CWARN("CODI_Free called using MEMORY_TAG_UNKNOWN. Re-class this alloation.");
     }
 
     stats.totalAllocated -= size;
@@ -68,19 +68,19 @@ void  CFree(void* block, const u64 size, const memoryTag tag) {
     platformFree(block, FALSE);
 }
 
-void* CMemclr(void* block, const u64 size) {
+void* CODI_MemoryZero(void* block, const u64 size) {
     return platformZeroMemory(block, size);
 }
 
-void* CMemcpy(void* dest, const void* src, const u64 size) {
+void* CODI_MemoryCopy(void* dest, const void* src, const u64 size) {
     return platformCopyMemory(dest, src, size);
 }
 
-void* CMemset(void* dest, const i32 value, const u64 size) {
+void* CODI_MemorySet(void* dest, const i32 value, const u64 size) {
     return platformSetMemory(dest, value, size);
 }
 
-char* CGetMemoryUsageString() {
+char* CODI_GetMemoryUsageString() {
     const u64 kib = 1024;
     const u64 mib = 1024 * kib;
     const u64 gib = 1024 * mib;

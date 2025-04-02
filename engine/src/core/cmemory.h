@@ -22,15 +22,15 @@ typedef enum {
     MEMORY_TAG_SCENE,
 
     MEMORY_TAG_COUNT
-} memoryTag;
+} CODI_MemoryTag;
 
 CAPI void initializeMemory();
 CAPI void shutdownMemory();
 
-CAPI void* CAllocate(const u64 size, const memoryTag tag);
-CAPI void  CFree(void* block, const u64 size, const memoryTag tag);
-CAPI void* CMemclr(void* block, const u64 size); // memory zero
-CAPI void* CMemcpy(void* dest, const void* src, const u64 size);
-CAPI void* CMemset(void* dest, const i32 value, const u64 size);
+CAPI void* CODI_Allocate(const u64 size, const CODI_MemoryTag tag);
+CAPI void  CODI_Free(void* block, const u64 size, const CODI_MemoryTag tag);
+CAPI void* CODI_MemoryZero(void* block, const u64 size); // memory zero
+CAPI void* CODI_MemoryCopy(void* dest, const void* src, const u64 size);
+CAPI void* CODI_MemorySet(void* dest, const i32 value, const u64 size);
 
-CAPI char* CGetMemoryUsageString();
+CAPI char* CODI_GetMemoryUsageString();

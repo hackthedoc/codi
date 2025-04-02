@@ -2,17 +2,17 @@
 
 #include <core/logger.h>
 
-b8 gameInitialize(game* gInstance) {
+b8 gameInitialize(CODI_Game* gInstance) {
     return TRUE;
 }
 
-b8 gameUpdate(game* gInstance, const f32 deltaTime) {
+b8 gameUpdate(CODI_Game* gInstance, const f32 deltaTime) {
     return TRUE;
 }
 
-b8 gameRender(game* gInstance, const f32 deltaTime) {
+b8 gameRender(CODI_Game* gInstance, const f32 deltaTime) {
     return TRUE;
 }
 
-void gameOnResize(game* gInstance, const u32 width, const u32 height) {
+void gameOnResize(CODI_Game* gInstance, const u32 width, const u32 height) {
 }

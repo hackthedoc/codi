@@ -8,10 +8,10 @@ typedef struct {
     i16 startWidth;     // window starting width, if applicable
     i16 startHeight;    // window starting height, if applicable
     char* name;         // the application name used in windowing, if applicable
-} applicationConfig;
+} CODI_ApplicationConfig;
 
-struct game;
+struct CODI_Game;
 
-CAPI b8 ApplicationCreate(struct game* gInstance);
+CAPI b8 CODI_ApplicationCreate(struct CODI_Game* gInstance);
 
-CAPI b8 ApplicationRun();
+CAPI b8 CODI_ApplicationRun();

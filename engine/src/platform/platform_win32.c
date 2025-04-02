@@ -21,7 +21,7 @@ static LARGE_INTEGER startTime;
 
 LRESULT CALLBACK win32_ProcessMessage(HWND hwnd, u32 msg, WPARAM wParam, LPARAM lParam);
 
-b8 platformSartup(platformState* platState, const char* appName, const i32 x, const i32 y, const i32 width, const i32 height) {
+b8 platformSartup(CODI_PlatformState* platState, const char* appName, const i32 x, const i32 y, const i32 width, const i32 height) {
     platState->internalState = malloc(sizeof(internalState));
     internalState* state = (internalState*)platState->internalState;
 
@@ -116,7 +116,7 @@ b8 platformSartup(platformState* platState, const char* appName, const i32 x, co
     return TRUE;
 }
 
-void platformShutdown(platformState* platState) {
+void platformShutdown(CODI_PlatformState* platState) {
     internalState* state = (internalState*)platState->internalState;
 
     if (state->hwnd) {
@@ -125,7 +125,7 @@ void platformShutdown(platformState* platState) {
     }
 }
 
-b8 platformPumpMessage(platformState* platState) {
+b8 platformPumpMessage(CODI_PlatformState* platState) {
     MSG msg;
     while (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE)) {
         TranslateMessage(&msg);

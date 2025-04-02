@@ -7,10 +7,10 @@
 #include "platform/platform.h"
 
 typedef struct {
-    game* gInstance;
+    CODI_Game* gInstance;
     b8 isRunning;
     b8 isSuspended;
-    platformState platform;
+    CODI_PlatformState platform;
     i16 width;
     i16 height;
     f64 lastTime;
@@ -19,9 +19,9 @@ typedef struct {
 static b8 inizialized = FALSE;
 static applicationState appState;
 
-b8 ApplicationCreate(game* gInstance) {
+b8 CODI_ApplicationCreate(CODI_Game* gInstance) {
     if (inizialized) {
-        CERROR("ApplicationCreate called more than once.");
+        CERROR("CODI_ApplicationCreate called more than once.");
         return FALSE;
     }
 
@@ -61,8 +61,8 @@ b8 ApplicationCreate(game* gInstance) {
     return TRUE;
 }
 
-b8 ApplicationRun() {
-    CINFO(CGetMemoryUsageString());
+b8 CODI_ApplicationRun() {
+    CINFO(CODI_GetMemoryUsageString());
 
     while (appState.isRunning) {
         if (!platformPumpMessage(&appState.platform)) {

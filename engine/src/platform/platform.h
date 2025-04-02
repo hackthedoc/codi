@@ -4,13 +4,13 @@
 
 typedef struct {
     void* internalState;
-} platformState;
+} CODI_PlatformState;
 
-b8 platformSartup(platformState* platState, const char* appName, const i32 x, const i32 y, const i32 width, const i32 height);
+b8 platformSartup(CODI_PlatformState* platState, const char* appName, const i32 x, const i32 y, const i32 width, const i32 height);
 
-void platformShutdown(platformState* platState);
+void platformShutdown(CODI_PlatformState* platState);
 
-b8 platformPumpMessage(platformState* platState);
+b8 platformPumpMessage(CODI_PlatformState* platState);
 
 void* platformAllocate(const u64 size, const b8 aligned);
 void  platformFree(void* block, const b8 aligned);

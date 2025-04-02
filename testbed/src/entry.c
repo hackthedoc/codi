@@ -5,7 +5,7 @@
 #include <core/cmemory.h>
 
 // Define the function to create a game.
-b8 createGame(game* outGame) {
+b8 createGame(CODI_Game* outGame) {
 
     // application configuration
 
@@ -22,7 +22,7 @@ b8 createGame(game* outGame) {
 
     // create the game state
 
-    outGame->state = CAllocate(sizeof(gameState), MEMORY_TAG_GAME);
+    outGame->state = CODI_Allocate(sizeof(CODI_GameState), MEMORY_TAG_GAME);
 
     return TRUE;
 }

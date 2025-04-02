@@ -7,7 +7,7 @@
 #include "game_types.h"
 
 // Externally defined function to create a game.
-extern b8 createGame(game* outGame);
+extern b8 createGame(CODI_Game* outGame);
 
 // The MAIN entry point of the application;
 int main(void) {
@@ -16,7 +16,7 @@ int main(void) {
 
     // request the game instance for the application
 
-    game gInstance;
+    CODI_Game gInstance;
     if (!createGame(&gInstance)) {
         CFATAL("Could not create game!");
         return -1;
@@ -31,14 +31,14 @@ int main(void) {
 
     // initialize application
 
-    if (!ApplicationCreate(&gInstance)) {
+    if (!CODI_ApplicationCreate(&gInstance)) {
         CINFO("Application failed to create!");
         return 1;
     }
 
     // start application loop
 
-    if (!ApplicationRun()) {
+    if (!CODI_ApplicationRun()) {
         CINFO("Application did not shutdown gracefully.");
         return 2;
     }
