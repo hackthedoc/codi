@@ -34,25 +34,23 @@ CAPI void* _darrayPopAt(void* array, const u64 index, void* dest);
 #define DARRAY_DEFAULT_CAPACITY 1
 #define DARRAY_RESIZE_FACTOR 2
 
-#define CODI_DArrayCreate(type) _darray_create(DARRAY_DEFAULT_CAPACITY, sizeof(type))
+#define CODI_DArrayCreate(type) _darrayCreate(DARRAY_DEFAULT_CAPACITY, sizeof(type))
 
-#define CODI_DArrayReserve(type, capacity) _darray_create(capacity, sizeof(type))
+#define CODI_DArrayReserve(type, capacity) _darrayCreate(capacity, sizeof(type))
 
-#define CODI_DArrayDestroy(array) _darray_destroy(array)
+#define CODI_DArrayDestroy(array) _darrayDestroy(array)
 
 #define CODI_DArrayPush(array, value)       \
     {                                       \
-       typeof(value) t = value;             \
-       array = _darrayPush(array, &temp);   \ 
-    }
+       typeof(value) temp = value;          \
+       array = _darrayPush(array, &temp);}
 
 #define CODI_DArrayPop(array, valuePtr) _darrayPop(array, valuePtr)
 
 #define CODI_DArrayInsertAt(array, index, value)    \
     {                                               \
        typeof(value) t = value;                     \
-       array = _darrayPush(array, index, &temp);    \ 
-    }
+       array = _darrayPush(array, index, &temp);}
 
 #define CODI_DArrayPopAt(array, index, valuePtr) _darrayPopAt(array, index, valuePtr)
 

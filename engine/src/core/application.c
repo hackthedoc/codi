@@ -3,6 +3,7 @@
 
 #include "core/logger.h"
 #include "core/cmemory.h"
+#include "core/event.h"
 
 #include "platform/platform.h"
 
@@ -30,6 +31,11 @@ b8 CODI_ApplicationCreate(CODI_Game* gInstance) {
     // Initialize subsystems
 
     initializeLogging();
+
+    if (!initializeEvent()) {
+        CERROR("Event system failed initialization. Application cannot continue.");
+        return FALSE;
+    }
 
     appState.isRunning = TRUE;
     appState.isSuspended = FALSE;
@@ -86,6 +92,8 @@ b8 CODI_ApplicationRun() {
 
     appState.isRunning = FALSE;
 
+    shutdownEvent();
+    
     platformShutdown(&appState.platform);
 
     return TRUE;

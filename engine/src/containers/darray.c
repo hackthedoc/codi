@@ -1,5 +1,6 @@
 #include "darray.h"
 
+#include "core/logger.h"
 #include "core/cmemory.h"
 
 void* _darrayCreate(const u64 capacity, const u64 stride) {
@@ -16,8 +17,8 @@ void* _darrayCreate(const u64 capacity, const u64 stride) {
 
 void _darrayDestroy(void* array) {
     u64* header = (u64*)array - DARRAY_FIELD_LENGTH;
-    const headerSize = DARRAY_FIELD_LENGTH * sizeof(u64);
-    const totalSize = headerSize + header[DARRAY_CAPACITY] + header[DARRAY_STRIDE];
+    const u64 headerSize = DARRAY_FIELD_LENGTH * sizeof(u64);
+    const u64 totalSize = headerSize + header[DARRAY_CAPACITY] + header[DARRAY_STRIDE];
     CODI_Free(header, totalSize, MEMORY_TAG_DARRAY);
 }
 
