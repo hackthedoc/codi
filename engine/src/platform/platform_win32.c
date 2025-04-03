@@ -6,6 +6,10 @@
 #include "core/logger.h"
 #include "core/input.h"
 
+#include "renderer/vulkan/vulkanPlatform.h"
+
+#include "containers/darray.h"
+
 #include <stdlib.h>
 #include <windows.h>
 #include <windowsx.h>
@@ -188,6 +192,10 @@ f64 platformGetAbsoluteTime() {
 
 void platformSleep(const u64 ms) {
     Sleep(ms);
+}
+
+void platformGetRequiredExtensionNames(const char*** namesDArray) {
+    CODI_DArrayPush(*namesDArray, &"VK_KHR_win32_surface");
 }
 
 LRESULT CALLBACK win32_ProcessMessage(HWND hwnd, u32 msg, WPARAM wParam, LPARAM lParam) {
