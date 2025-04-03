@@ -9,6 +9,8 @@
 
 #include "platform/platform.h"
 
+#include "renderer/rendererFrontend.h"
+
 typedef struct {
     CODI_Game* gInstance;
     b8 isRunning;
@@ -68,6 +70,13 @@ b8 CODI_ApplicationCreate(CODI_Game* gInstance) {
         return FALSE;
     }
 
+    // renderer startup
+
+    if (!initializeRenderer(gInstance->appConfig.name, &appState.platform)) {
+        CFATAL("Failed to initialize renderer. Aborting application.");
+        return FALSE;
+    }
+
     // initialize the game
 
     if (!gInstance->initialize(gInstance)) {
@@ -103,17 +112,27 @@ b8 CODI_ApplicationRun() {
             const f64 delta = currentTime - appState.lastTime;
             const f64 frameStartTime = platformGetAbsoluteTime();
 
+            // update routine
+
             if (!appState.gInstance->update(appState.gInstance, delta)) {
                 CFATAL("Game update failed, shutting down.");
                 appState.isRunning = FALSE;
                 break;
             }
+
+            // render routine
             
             if (!appState.gInstance->render(appState.gInstance, delta)) {
                 CFATAL("Game render failed, shutting down.");
                 appState.isRunning = FALSE;
                 break;
             }
+
+            CODI_RenderPacket packet;
+            packet.deltaTime = delta;
+            rendererDrawFrame(&packet);
+
+            // time check
 
             const f64 frameEndTime = platformGetAbsoluteTime();
             const f64 frameElapsedTime = frameEndTime - frameStartTime;
@@ -149,7 +168,7 @@ b8 CODI_ApplicationRun() {
 
     shutdownEvent();
     shutdownInput();
-
+    shutdownRenderer();
     platformShutdown(&appState.platform);
 
     return TRUE;

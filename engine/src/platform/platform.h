@@ -2,7 +2,7 @@
 
 #include "macros.h"
 
-typedef struct {
+typedef struct CODI_PlatformState {
     void* internalState;
 } CODI_PlatformState;
 

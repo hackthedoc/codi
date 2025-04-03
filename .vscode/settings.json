@@ -47,6 +47,10 @@
         "vulkan_platform.h": "c",
         "renderer_frontend.h": "c",
         "windows.h": "c",
-        "platform.h": "c"
+        "platform.h": "c",
+        "rendererbackend.h": "c",
+        "rendererfrontend.h": "c",
+        "renderertypes.inl": "c",
+        "macros.h": "c"
     },
 }
