@@ -5,6 +5,7 @@
 #include "core/cmemory.h"
 #include "core/event.h"
 #include "core/input.h"
+#include "core/clock.h"
 
 #include "platform/platform.h"
 
@@ -15,6 +16,7 @@ typedef struct {
     CODI_PlatformState platform;
     i16 width;
     i16 height;
+    CODI_Clock clock;
     f64 lastTime;
 } applicationState;
 
@@ -81,6 +83,13 @@ b8 CODI_ApplicationCreate(CODI_Game* gInstance) {
 }
 
 b8 CODI_ApplicationRun() {
+    clockStart(&appState.clock);
+    clockUpdate(&appState.clock);
+    appState.lastTime = appState.clock.elapsed;
+    f64 runningTime = 0;
+    u8 frameCount = 0;
+    f64 targetFrameTime = 1.f / 60;
+
     CINFO(CODI_GetMemoryUsageString());
 
     while (appState.isRunning) {
@@ -89,27 +98,51 @@ b8 CODI_ApplicationRun() {
         }
 
         if (!appState.isSuspended) {
-            if (!appState.gInstance->update(appState.gInstance, 0)) {
+            clockUpdate(&appState.clock);
+            const f64 currentTime = appState.clock.elapsed;
+            const f64 delta = currentTime - appState.lastTime;
+            const f64 frameStartTime = platformGetAbsoluteTime();
+
+            if (!appState.gInstance->update(appState.gInstance, delta)) {
                 CFATAL("Game update failed, shutting down.");
                 appState.isRunning = FALSE;
                 break;
             }
             
-            if (!appState.gInstance->render(appState.gInstance, 0)) {
+            if (!appState.gInstance->render(appState.gInstance, delta)) {
                 CFATAL("Game render failed, shutting down.");
                 appState.isRunning = FALSE;
                 break;
             }
 
+            const f64 frameEndTime = platformGetAbsoluteTime();
+            const f64 frameElapsedTime = frameEndTime - frameStartTime;
+            runningTime += frameElapsedTime;
+            const f64 remainingTime = targetFrameTime - frameElapsedTime;
+
+            if (remainingTime > 0) {
+                const u64 remainingMS = remainingTime * 1000;
+
+                // NOTE: if there's time left, give it back to the OS.
+                b8 limitFrames = FALSE;
+
+                if (limitFrames & (remainingMS > 0)) {
+                    platformSleep(remainingMS-1);
+                }
+
+                frameCount++;
+            }
+
             // NOTE: Input update/state copying should always be handled after any input should be recorde; I.E. before this line.
             // As a safety, input is the last thing to be updated before the end of a frame.
-            inputUpdate(0);
+            inputUpdate(delta);
+
+            appState.lastTime = currentTime;
         }
     }
 
     appState.isRunning = FALSE;
 
-    
     CODI_EventUnregister(EVENT_CODE_APPLICATION_QUIT, 0, applicationOnEvent);
     CODI_EventUnregister(EVENT_CODE_KEY_PRESSED, 0, applicationOnKey);
     CODI_EventUnregister(EVENT_CODE_KEY_RELEASED, 0, applicationOnKey);
